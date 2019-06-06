@@ -5,10 +5,22 @@
              android:layout_height="match_parent"
              tools:context=".OldTestamentBooks">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/old_testament"/>
+            android:layout_height="match_parent">
+        <EditText
+                android:layout_width="match_parent"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:id="@+id/oldBooksSearchFilter"/>
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/oldBookList"
+        />
+    </LinearLayout>
 
 </FrameLayout>
