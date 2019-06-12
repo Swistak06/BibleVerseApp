@@ -1,5 +1,6 @@
 package com.swistak.bibleverseapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,9 +36,10 @@ class NewTestamentBooks : Fragment() {
         }
 
         view.newBooksList.setOnItemClickListener { _, _, position, _ ->
-            run {
-                Toast.makeText(context,booksName[position],Toast.LENGTH_LONG).show()
-            }
+            val intent = Intent(context, FormActivity::class.java)
+            intent.putExtra("keyIdentifier", booksName[position])
+            startActivity(intent)
+
         }
 
         view.newBooksSearchFilter.addTextChangedListener(object : TextWatcher {
