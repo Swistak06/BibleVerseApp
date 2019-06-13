@@ -1,5 +1,6 @@
 package com.swistak.bibleverseapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -55,6 +56,49 @@ class OldTestamentBooks : Fragment() {
         "Malachi"
     )
 
+    var booksNameList = arrayListOf(
+        "Genesis",
+        "Exodus",
+        "Leviticus",
+        "Numbers",
+        "Deuteronomy",
+        "Joshua",
+        "Judges",
+        "Ruth",
+        "1 Samuel",
+        "2 Samuel",
+        "1 Kings",
+        "2 Kings",
+        "1 Chronicles",
+        "2 Chronicles",
+        "Ezra",
+        "Nehemiah",
+        "Esther",
+        "Job",
+        "Psalms",
+        "Proverbs",
+        "Ecclesiastes",
+        "Song of Solomon",
+        "Isaiah",
+        "Jeremiah",
+        "Lamentations",
+        "Ezekiel",
+        "Daniel",
+        "Hosea",
+        "Joel",
+        "Amos",
+        "Obadiah",
+        "Jonah",
+        "Micah",
+        "Nahum",
+        "Habakkuk",
+        "Zephaniah",
+        "Haggai",
+        "Zechariah",
+        "Malachi"
+    )
+    var filteredBookList: List<String> = arrayListOf("alfa")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,9 +108,9 @@ class OldTestamentBooks : Fragment() {
         view.oldBookList.adapter = arrayAdapter
 
         view.oldBookList.setOnItemClickListener { _, _, position, _ ->
-            run {
-                Toast.makeText(context,booksName[position],Toast.LENGTH_LONG).show()
-            }
+            val intent = Intent(context, FormActivity::class.java)
+            intent.putExtra("bookName", arrayAdapter.getItem(position))
+            startActivity(intent)
         }
 
         view.oldBooksSearchFilter.addTextChangedListener(object : TextWatcher {
@@ -77,6 +121,7 @@ class OldTestamentBooks : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filteredBookList = booksNameList.filter { s -> s == p0 }
                 arrayAdapter.filter.filter(p0)
             }
         })

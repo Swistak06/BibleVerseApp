@@ -20,7 +20,11 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimaryDark"/>
+                android:background="?attr/colorPrimaryDark"
+                android:textColor="@color/cardview_light_background"
+                app:tabIndicatorColor="@color/design_default_color_on_primary"
+                app:tabTextColor="@android:color/darker_gray"
+                app:tabSelectedTextColor="@color/design_default_color_background"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
