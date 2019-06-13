@@ -37,9 +37,8 @@ class NewTestamentBooks : Fragment() {
 
         view.newBooksList.setOnItemClickListener { _, _, position, _ ->
             val intent = Intent(context, FormActivity::class.java)
-            intent.putExtra("book",arrayAdapter.getItem(position))
+            intent.putExtra("bookName", arrayAdapter.getItem(position))
             startActivity(intent)
-
         }
 
         view.newBooksSearchFilter.addTextChangedListener(object : TextWatcher {

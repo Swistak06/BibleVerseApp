@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.Editable
 import android.view.View
 import androidx.core.os.HandlerCompat.postDelayed
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_result.*
 import okhttp3.*
 import java.io.IOException
@@ -18,6 +19,8 @@ class FormActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
     private var resp = "sfsa"
+    private var apiCallUrl = "https://bible-api.com/"
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,22 +38,18 @@ class FormActivity : AppCompatActivity() {
         searchBtn.setOnClickListener {
 
             when {
-                BeginVerseInput.text.isNullOrEmpty()-> displayErrorMsg("Enter begin verse range value!")
                 BookNameInput.text.isNullOrEmpty() -> displayErrorMsg("Enter book name!")
                 ChapterNumberInput.text.isNullOrEmpty() -> displayErrorMsg("Enter number of chapter!")
+                BeginVerseInput.text.isNullOrEmpty()-> displayErrorMsg("Enter begin verse range value!")
                 !EndVerseInput.text.isNullOrEmpty() && Integer.parseInt(EndVerseInput.text.toString()) < Integer.parseInt(BeginVerseInput.text.toString()) -> displayErrorMsg("End verse range value cannot be lower than begin range!")
                 else -> {
                     val intent1 = Intent(this, ResultActivity::class.java)
-                    intent1.putExtra("bookName",BookNameInput.text.toString())
-                    intent1.putExtra("chapterNum",ChapterNumberInput.text.toString())
-                    intent1.putExtra("beginVerse",BeginVerseInput.text.toString())
-                    if(!EndVerseInput.text.isNullOrEmpty())
-                        intent1.putExtra("endVerse",ChapterNumberInput.text.toString())
-                    else
-                        intent1.putExtra("endVerse","0")
+                    apiCallUrl = apiCallUrl + BookNameInput.text + ChapterNumberInput.text + ":" + BeginVerseInput.text
+                    if(!EndVerseInput.text.isNullOrEmpty()){
+                        apiCallUrl =  apiCallUrl + "-" + EndVerseInput.text
+                    }
                     intent1.putExtra("combinedText",CombinedTextSwitch.isChecked)
-                    run("https://bible-api.com/jn%203:16",intent1)
-
+                    run(apiCallUrl,intent1)
                 }
             }
         }
