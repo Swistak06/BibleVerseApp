@@ -10,9 +10,15 @@ import android.text.Editable
 import android.view.View
 import androidx.core.os.HandlerCompat.postDelayed
 import kotlinx.android.synthetic.main.activity_result.*
+import okhttp3.*
+import java.io.IOException
 
 
 class FormActivity : AppCompatActivity() {
+
+    private val client = OkHttpClient()
+    private var resp = "sfsa"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +49,8 @@ class FormActivity : AppCompatActivity() {
                     else
                         intent1.putExtra("endVerse","0")
                     intent1.putExtra("combinedText",CombinedTextSwitch.isChecked)
-                    startActivity(intent1)
+                    run("https://bible-api.com/jn%203:16",intent1)
+
                 }
             }
         }
@@ -59,6 +66,21 @@ class FormActivity : AppCompatActivity() {
             },
             3000
         )
+    }
+
+    fun run(url: String, intent1 : Intent) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response){
+                resp = response.body()!!.string()
+                intent1.putExtra("ApiResponse",resp)
+                startActivity(intent1)
+            }
+        })
     }
 
 }
