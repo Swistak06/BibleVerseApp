@@ -19,22 +19,20 @@ class FormActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
     private var resp = "sfsa"
-    private var apiCallUrl = "https://bible-api.com/"
+    private var apiCallUrl = ""
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
+
         val extras = intent.extras
         if (extras != null) {
             val value = extras.getString("bookName")
             val editable = SpannableStringBuilder(value)
             BookNameInput.text = editable
         }
-
-
-
         searchBtn.setOnClickListener {
 
             when {
@@ -55,6 +53,11 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        apiCallUrl = "https://bible-api.com/"
+    }
+
     private fun displayErrorMsg(message : String){
         ErrorLabel.text = message
         ErrorLabel.visibility = View.VISIBLE
@@ -67,17 +70,29 @@ class FormActivity : AppCompatActivity() {
         )
     }
 
+
+
+
     fun run(url: String, intent1 : Intent) {
         val request = Request.Builder()
             .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    displayErrorMsg("Connection problem")
+                }
+            }
             override fun onResponse(call: Call, response: Response){
                 resp = response.body()!!.string()
-                intent1.putExtra("ApiResponse",resp)
-                startActivity(intent1)
+                if(resp  == "{\"error\":\"not found\"}"){
+                    runOnUiThread { displayErrorMsg("Verses not found") }
+                }
+                else{
+                    intent1.putExtra("ApiResponse",resp)
+                    startActivity(intent1)
+                }
             }
         })
     }

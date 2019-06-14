@@ -12,7 +12,7 @@
         <EditText
                 android:layout_width="match_parent"
                 android:inputType="textPersonName"
-                android:text="Name"
+                android:hint="Book Name"
                 android:layout_height="50dp"
                 android:ems="10"
                 android:id="@+id/oldBooksSearchFilter"/>

@@ -12,9 +12,9 @@
         <EditText
                 android:layout_width="match_parent"
                 android:inputType="textPersonName"
-                android:text="Name"
                 android:layout_height="50dp"
                 android:ems="10"
+                android:hint="Book Name"
                 android:id="@+id/newBooksSearchFilter"/>
         <ListView
                 android:layout_width="match_parent"
